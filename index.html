@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flashcards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: white;
+        }
+
+        #flashcard {
+            width: 300px;
+            height: 200px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        #flashcard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #next-button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+        }
+
+        #show-answer-button {
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="flashcard-container">
+        <div id="flashcard">Click "Show Answer" to reveal the answer.</div>
+        <div id="buttons">
+            <button id="show-answer-button">Show answer</button>
+            <button id="next-button">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const flashcard = document.getElementById("flashcard");
+        const showAnswerButton = document.getElementById("show-answer-button");
+        const nextButton = document.getElementById("next-button");
+
+        const flashcards = [
+            { question: "simple and flexible format of presenting information or conveying ideas whether hand-written, printed or displayed on screen", answer: "text" },
+            { question: "types of text", answer: "hypertext, plain or unformatted text, formatted text" },
+            { question: "fixed sized characters/same type of appearance", answer: "unformatted text" },
+            { question: "appearance can be changed", answer: "formatted text" },
+            { question: "2 text categories", answer: "formal, informal" },
+            { question: "created and distributed by established intuitions", answer: "formal" },
+            { question: "personal opinions or views", answer: "informal" },
+            { question: "the art of arranging letters and text that makes them visuallt appealing", answer: "typography" },
+            { question: "typeface categories", answer: "serif, sans serif, slab serif, script, display/decorative" },
+            { question: "importance or value given to a part of the text", answer: "emphasis" },
+            { question: "refers to how fitting or suitable the text is used", answer: "appropriateness" },
+            { question: "refers to how near or far the text elements are from each other", answer: "proximity" },
+            { question: "refers to how the text is positioned", answer: "alignment" },
+            { question: "conscious effort to organize the different text elements", answer: "organization" },
+            { question: "repeaying some typefaces within the page", answer: "repetition" },
+            { question: "two elements are different from each other", answer: "contrast" },
+            { question: "the artistic or creative representation or interpretation of an idea, concept or emotion", answer: "visual information" },
+            { question: "types of visual information", answer: "painting, photos/images, sculpture, comic strips/cartoons, graphs/charts, billboards/posters" },
+            { question: "form of visual communication meant to capture attention and enhance comprehension", answer: "infographics" },
+            { question: "variety of different charts to show data", answer: "mixed-chart" },
+            { question: "lists information about a given subject", answer: "list infographic" },
+            { question: "looks at how a subject has changed overtime", answer: "timeline" },
+            { question: "starts at a single point and looks at the points that branch off based on different decisions", answer: "flowchart" },
+            { question: "a step-by-step guide to creating something", answer: "how-to guide" },
+            { question: "compares and contrasts two different subjects", answer: "comparison" },
+            { question: "uses a map to visualize data", answer: "location-based" },
+            { question: "uses photographs combined with text to explain a point", answer: "photo-graphic" },
+            { question: "stacks, items or subjects", answer: "hierarchical" },
+            { question: "bar or line graph", answer: "single chart" },
+            { question: "adds images to statistics", answer: "visualized number infographic" },
+            { question: "breaks down what makes something work", answer: "anatomical" },
+            { question: "a resume in infographic form", answer: "visual resume" },
+            { question: "visual design elements", answer: "lines, shape, value, texture, color, form" },
+            { question: "sound that is recorded", answer: "audio" },
+            { question: "types of audio", answer: "music, narration, sound effects" },
+            { question: "media communication that uses audio", answer: "audio media" },
+            { question: "live or recorded audio sent through audio waves", answer: "radio broadcast" },
+            { question: "vocal/instrumental sounds combined to produce beauty", answer: "music" },
+            { question: "recording of an iterview, meeting, or any sound", answer: "sound recording" },
+            { question: "provides hint to the setting in absence of visuals", answer: "sound effects" },
+            { question: "sound effect groups", answer: "hard sound, background sound, foley sound, design sound" },
+            { question: "spoken message that gives information", answer: "narration" },
+            { question: "types of narrations", answer: "partially voiced reading, fully-voiced reading, unvoiced reading, multicast reading" },
+            { question: "an area that first attracts", answer: "center of interest" },
+            { question: "a composition guideline", answer: "rule of thirds" },
+            { question: "gives visual equality", answer: "balance" },
+            { question: "brings together a composition", answer: "harmony" },
+            { question: "visual discord", answer: "contrast" },
+            { question: "visual flow", answer: "directional movement" },
+            { question: "elements recur regularly", answer: "rhythm" },
+            { question: "arrangement of objects", answer: "perspective" },
+            { question: "the world (ZA WARUDO)", answer: "extreme wide shot" },
+            { question: "the characters", answer: "wide shot" },
+            { question: "head to toe", answer: "full shot" },
+            { question: "waist up", answer: "medium shot" },
+            { question: "shoulder up", answer: "medium-close-up" },
+            { question: "the face", answer: "close-up" },
+            { question: "facial features", answer: "extreme-close-up" },
+            { question: "recorded from an elevated point", answer: "bird's-eye view" },
+            { question: "an angle where the character seems vulnerable", answer: "high angle" },
+            { question: "natural camera angle", answer: "eye level" },
+            { question: "makes the character look powerful/imposing", answer: "low-angle" },
+            { question: "the angle is taken from below", answer: "worm's-eye view" },
+            { question: "an angle that shows something is wrong", answer: "dutch angle" },
+            { question: "volume and pitch", answer: "sound quality" },
+            { question: "proper diction and pronunciation", answer: "voice quality" },
+            { question: "appropriate to the content", answer: "type of content" },
+            { question: "a magnetic tape", answer: "tape" },
+            { question: "a circular medium", answer: "CD" },
+            { question: "an external flash drive that's small enough to carry", answer: "USB Drive" },
+            { question: "used to store data", answer: "memory card" },
+            { question: "secondary devices", answer: "computer hard drive" },
+            { question: "websites or repositories", answer: "cloud" },
+            { question: "visual media that gives the appearance of movement", answer: "motion media" },
+            { question: "moving images", answer: "film" },
+            { question: "telecommunication", answer: "motion pictures in TV" },
+            { question: "blends interaction and linear", answer: "interactive video" },
+            { question: "other visual media", answer: "phone gaming, computer games, cinema, livestream" },
+            { question: "a video-sharing website", answer: "youtube" },
+            { question: "horizontal camera movement that focuses and emphasizes objects", answer: "dolly" },
+            { question: "upa and down camera movement used to shoot tall characters or subject", answer: "pedestal" },
+            { question: "a camera movement that involves motion from left to right used to shoot running/biking", answer: "truck" },
+            { question: "a camera movement where your camera alens from one side to another as if you are looking from left to right", answer: "pan" },
+            { question: "a camera movement looking up and down while keeping it's horizontal access constant", answer: "tilt" },
+            { question: "moving the camera to the side as if a dog tilt's it's head", answer: "roll" },
+            { question: "a form of media that has the appearance of moving text and graphics on a display", answer: "motion information" },
+            { question: "shows a set of components changing in time to create a story", answer: "storyboard" },
+            { question: "encompasses directing, acting, musical score, screenplay, composing, writing, editing and other elements used for incorporated in a film", answer: "best picure" },
+            { question: "refers to the art or technique of moview photography that includes both the shooting and the processing of the image", answer: "best cinematography" },
+            { question: "given to a film with the best script or storyline", answer: "best screenplay" },
+            { question: "given to a film for the best achievement in visual effects", answer: "best visual effects" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+            { question: "", answer: "" },
+           
+        ];
+
+        let currentFlashcardIndex = 0;
+        let showAnswer = false;
+
+        function displayFlashcard() {
+            if (showAnswer) {
+                flashcard.textContent = flashcards[currentFlashcardIndex].answer;
+            } else {
+                flashcard.textContent = flashcards[currentFlashcardIndex].question;
+            }
+        }
+
+        showAnswerButton.addEventListener("click", () => {
+            showAnswer = true;
+            displayFlashcard();
+        });
+
+        nextButton.addEventListener("click", () => {
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % flashcards.length;
+            showAnswer = false;
+            displayFlashcard();
+        });
+
+        displayFlashcard();
+    </script>
+</body>
+</html>
